@@ -10,6 +10,11 @@
   "build": {
     "appId": "com.CharacterCounter",
     "productName": "Contador de Caracteres",
+    "publish": [{
+      "provider": "github",
+      "owner": "JoseAndresGC",
+      "repo": "Contador-de-Caracteres"
+    }],
     "win": {
       "target": "nsis"
     },
@@ -18,13 +23,6 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true
     },
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "JoseAndresGC",
-        "repo": "contador-de-caracteres-electronApp"
-      }
-    ],
     "releaseInfo": {
       "releaseNotes": "Notas de la versión"
     }
