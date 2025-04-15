@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+
+# Production build folder
+dist/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
+
+package-lock.json
+node_modules

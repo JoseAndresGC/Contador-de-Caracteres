@@ -1,0 +1,48 @@
+{
+  "name": "contador-de-caracteres-electronapp",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "dev": "electron .",
+    "build": "electron-builder",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "build": {
+    "appId": "com.CharacterCounter",
+    "productName": "Contador de Caracteres",
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "JoseAndresGC",
+        "repo": "contador-de-caracteres-electronApp"
+      }
+    ],
+    "releaseInfo": {
+      "releaseNotes": "Notas de la versión"
+    }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "electron": "^35.1.5",
+    "electron-builder": "^26.0.12",
+    "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "electron-updater": "^6.6.2",
+    "eslint": "^9.24.0"
+  },
+  "eslintConfig": {
+    "extends": "standard"
+  }
+}

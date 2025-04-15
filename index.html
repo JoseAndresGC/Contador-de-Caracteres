@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <meta
+      http-equiv="X-Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'"
+    />
+    <title>Hello from Electron renderer!</title>
+  </head>
+
+<body>
+    <div class="container">
+  
+        <h1>Contador de caracteres</h1>
+        
+        <div class="results">
+          <p class="charCountSpan">Carácteres: <span class="">0</span></p>
+          <p class="wordCountSpan">Palabras: <span class="">0</span></p>
+          <p class="sentenceCountSpan">Frases: <span class="">0</span></p>
+        </div>
+      
+        <div class="input-area">
+          <textarea class="input-text" placeholder="Texto..."></textarea>
+        </div>
+        
+        <div class="controls">
+          <button class="clear-button">Borrar</button>
+        </div>
+      </div>
+</body>
+
+<script defer src="renderer.js"></script>
+</html>
