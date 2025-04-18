@@ -1,6 +1,6 @@
 {
   "name": "contador-de-caracteres-electronapp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "main.js",
   "scripts": {
     "dev": "electron .",
@@ -17,6 +17,10 @@
     }],
     "win": {
       "target": "nsis"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "category": "public.app-category.utilities"
     },
     "nsis": {
       "oneClick": false,

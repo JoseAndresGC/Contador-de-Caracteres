@@ -1,3 +1,17 @@
+// importar el módulo ipcRenderer de Electron
+const { ipcRenderer } = require('electron');
+
+// agregar eventListener para los botones minimizar y cerrar
+document.getElementById("control-button-minimize").addEventListener("click", () => {
+    // enviar un evento al proceso principal para minimizar la ventana
+    ipcRenderer.send("control-button-minimize");
+})
+
+document.getElementById("control-button-close").addEventListener("click", () => {
+    // enviar un evento al proceso principal para cerrar la ventana
+    ipcRenderer.send("control-button-close");
+})
+
 document.addEventListener('DOMContentLoaded', function() {
     const charCountSpan = document.getElementsByClassName("charCountSpan")[0];
     const wordCountSpan = document.getElementsByClassName("wordCountSpan")[0];

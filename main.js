@@ -2,13 +2,14 @@ const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const createWindow = () => {
     const win = new BrowserWindow ({
-        width: 1600,
-        height: 1200,
-        minHeight: 800,
-        minWidth: 600,
-        maxHeight: 1600,
-        maxWidth: 1200,
-        
+        width: 800,
+        height: 700,
+        frame: false,
+        resizable: false,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
     });
 
     win.loadFile('index.html');
@@ -82,3 +83,19 @@ app.on('window-all-closed', () => {
         app.quit();
     }
 });
+
+// controlar el boton de minimizar
+ipcMain.on("control-button-minimize", (event) => {
+    const win = BrowserWindow.getFocusedWindow();
+    if (win) {
+        win.minimize();
+    }
+})
+
+// controlar el boton de cerrar
+ipcMain.on("control-button-close", (event) => {
+    const win = BrowserWindow.getFocusedWindow();
+    if (win) {
+        win.close();
+    }
+})
