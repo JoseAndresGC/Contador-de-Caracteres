@@ -3,7 +3,7 @@ const { autoUpdater } = require('electron-updater');
 const createWindow = () => {
     const win = new BrowserWindow ({
         width: 800,
-        height: 700,
+        height: 839.676,
         frame: false,
         resizable: false,
         webPreferences: {
@@ -13,6 +13,15 @@ const createWindow = () => {
     });
 
     win.loadFile('index.html');
+
+    win.once("ready-to-show", () => {
+        win.setBounds ({
+            x: 0,
+            y: 0,
+            width: 800,
+            height: 839.676
+        });
+    });
     
     // Check for updates
     autoUpdater.checkForUpdatesAndNotify();
