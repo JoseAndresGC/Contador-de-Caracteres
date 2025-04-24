@@ -30,12 +30,13 @@ const createWindow = () => {
 }
 
 function setupAutoUpdater(win) {
-    // Configure logging
+    console.log('setupAutoUpdater se ha llamado correctamente'); // Registro para depuración
     autoUpdater.logger = require('electron-log');
     autoUpdater.logger.transports.file.level = 'info';
     
     // Event: update available
     autoUpdater.on('update-available', (info) => {
+        console.log('Actualización disponible:', info); // Registro para depuración
         dialog.showMessageBox(win, {
             type: 'info',
             title: 'Actualización disponible',
@@ -46,6 +47,7 @@ function setupAutoUpdater(win) {
     
     // Event: update downloaded
     autoUpdater.on('update-downloaded', (info) => {
+        console.log('Actualización descargada:', info); // Registro para depuración
         dialog.showMessageBox(win, {
             type: 'info',
             title: 'Actualización lista',
@@ -60,6 +62,7 @@ function setupAutoUpdater(win) {
     
     // Event: error during update
     autoUpdater.on('error', (err) => {
+        console.error('Error en la actualización:', err); // Registro para depuración
         dialog.showMessageBox(win, {
             type: 'error',
             title: 'Error en la actualización',
@@ -71,9 +74,11 @@ function setupAutoUpdater(win) {
     
     // Check for updates periodically (every hour)
     setInterval(() => {
+        console.log('Verificando actualizaciones periódicamente'); // Registro para depuración
         autoUpdater.checkForUpdates();
     }, 60 * 60 * 1000);
 }
+
 app.whenReady().then(() => {
     const mainWindow = createWindow();
     setupAutoUpdater(mainWindow);
@@ -108,3 +113,10 @@ ipcMain.on("control-button-close", (event) => {
         win.close();
     }
 })
+
+console.log('Iniciando verificación de actualizaciones...');
+autoUpdater.checkForUpdates().then((result) => {
+    console.log('Resultado de la verificación de actualizaciones:', result);
+}).catch((error) => {
+    console.error('Error al verificar actualizaciones:', error);
+});
