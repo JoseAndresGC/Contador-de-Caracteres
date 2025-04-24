@@ -6,7 +6,7 @@
 }
 
 body {
-  overflow: hidden;
+  overflow: hidden; /* Evita el scroll */
 }
 
 .titlebar {
@@ -40,7 +40,7 @@ body {
 }
 
 #control-button-minimize:hover {
-  background-color: #2ECC71;
+  background-color: #0fc55b;
 }
 
 #control-button-close:hover {
