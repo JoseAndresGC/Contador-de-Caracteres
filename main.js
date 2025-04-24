@@ -1,5 +1,7 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
 const createWindow = () => {
     const win = new BrowserWindow ({
         width: 800,
@@ -30,13 +32,15 @@ const createWindow = () => {
 }
 
 function setupAutoUpdater(win) {
-    console.log('setupAutoUpdater se ha llamado correctamente'); // Registro para depuración
-    autoUpdater.logger = require('electron-log');
-    autoUpdater.logger.transports.file.level = 'info';
-    
-    // Event: update available
+    log.transports.file.level = 'info';
+    autoUpdater.logger = log;
+
+    autoUpdater.on('checking-for-update', () => {
+        log.info('Buscando actualizaciones...');
+    });
+
     autoUpdater.on('update-available', (info) => {
-        console.log('Actualización disponible:', info); // Registro para depuración
+        log.info('Actualización disponible:', info);
         dialog.showMessageBox(win, {
             type: 'info',
             title: 'Actualización disponible',
@@ -44,10 +48,24 @@ function setupAutoUpdater(win) {
             buttons: ['OK']
         });
     });
-    
-    // Event: update downloaded
+
+    autoUpdater.on('update-not-available', (info) => {
+        log.info('No hay actualizaciones disponibles:', info);
+    });
+
+    autoUpdater.on('error', (err) => {
+        log.error('Error en la actualización:', err);
+        dialog.showMessageBox(win, {
+            type: 'error',
+            title: 'Error en la actualización',
+            message: 'Ocurrió un error al actualizar la aplicación.',
+            detail: err.toString(),
+            buttons: ['OK']
+        });
+    });
+
     autoUpdater.on('update-downloaded', (info) => {
-        console.log('Actualización descargada:', info); // Registro para depuración
+        log.info('Actualización descargada:', info);
         dialog.showMessageBox(win, {
             type: 'info',
             title: 'Actualización lista',
@@ -59,22 +77,10 @@ function setupAutoUpdater(win) {
             }
         });
     });
-    
-    // Event: error during update
-    autoUpdater.on('error', (err) => {
-        console.error('Error en la actualización:', err); // Registro para depuración
-        dialog.showMessageBox(win, {
-            type: 'error',
-            title: 'Error en la actualización',
-            message: 'Ocurrió un error al actualizar la aplicación.',
-            detail: err.toString(),
-            buttons: ['OK']
-        });
-    });
-    
-    // Check for updates periodically (every hour)
+
+    // Verificar actualizaciones periódicamente
     setInterval(() => {
-        console.log('Verificando actualizaciones periódicamente'); // Registro para depuración
+        log.info('Verificando actualizaciones periódicamente...');
         autoUpdater.checkForUpdates();
     }, 60 * 60 * 1000);
 }
