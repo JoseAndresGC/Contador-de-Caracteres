@@ -1,16 +1,25 @@
-// importar el módulo ipcRenderer de Electron
-const { ipcRenderer } = require('electron');
+const ipcRenderer = window.electron.ipcRenderer;
 
-// agregar eventListener para los botones minimizar y cerrar
+// Botón de minimizar
 document.getElementById("control-button-minimize").addEventListener("click", () => {
-    // enviar un evento al proceso principal para minimizar la ventana
     ipcRenderer.send("control-button-minimize");
-})
+});
 
+// Botón de cerrar
 document.getElementById("control-button-close").addEventListener("click", () => {
-    // enviar un evento al proceso principal para cerrar la ventana
     ipcRenderer.send("control-button-close");
-})
+});
+
+// Botón de modo noche/día
+document.getElementsByClassName("theme-button")[0].addEventListener("click", async () => {
+    const isDarkMode = await window.darkMode.toggle();
+    document.getElementsByClassName("theme-button")[0].innerHTML = isDarkMode ? "🌙" : "☀️";
+});
+
+// // Botón de opciones
+// document.getElementById("options-button").addEventListener("click", () => {
+//     ipcRenderer.send("open-options-menu");
+// });
 
 document.addEventListener('DOMContentLoaded', function() {
     const charCountSpan = document.getElementsByClassName("charCountSpan")[0];

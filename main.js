@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, nativeTheme } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const log = require('electron-log');
+const path = require('path');
 
 const createWindow = () => {
     const win = new BrowserWindow ({
@@ -9,8 +10,9 @@ const createWindow = () => {
         frame: false,
         resizable: false,
         webPreferences: {
-            nodeIntegration: true,
-            contextIsolation: false
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
         }
     });
 
@@ -30,6 +32,44 @@ const createWindow = () => {
     
     return win;
 }
+
+ipcMain.on("open-options-menu", () => {
+    const menuWindow = new BrowserWindow ({
+        width: 400,
+        height: 300,
+        frame: false,
+        resizable: false,
+        minimizable: false,
+        maximizable: false,
+        fullscreenable: false,
+        parent: BrowserWindow.getFocusedWindow(),
+        modal: true,
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            preload: path.join(__dirname, "preload.js"),
+        }
+    });
+    menuWindow.loadFile("menu.html");
+
+    // menuWindow.once("ready-to-show", () => {
+    //     menuWindow.setBounds ({
+    //         x: 0,
+    //         y: 0,
+    //         width: 400,
+    //         height: 300
+    //     });
+    // });
+});
+
+ipcMain.on("close-options-menu", (event) => {
+    const win = BrowserWindow.getFocusedWindow();
+    if (win) {
+        win.close();
+    }
+});
+
+// autoUpdater configuracion
 
 function setupAutoUpdater(win) {
     log.transports.file.level = 'info';
@@ -85,6 +125,23 @@ function setupAutoUpdater(win) {
     }, 60 * 60 * 1000);
 }
 
+// modo oscuro
+
+ipcMain.handle("dark-mode:toggle", (event) => {
+    if (nativeTheme.shouldUseDarkColors) {
+        nativeTheme.themeSource = "light"; // Cambia a modo claro
+    } else { 
+        nativeTheme.themeSource = "dark"; // Cambia a modo oscuro
+    }
+    return nativeTheme.shouldUseDarkColors; // Devuelve el estado actual del modo oscuro
+});
+
+ipcMain.handle("dark-mode:system", () => {
+    nativeTheme.themeSource = "system"; // Cambia al modo del sistema 
+});
+
+// Inicializar la app
+
 app.whenReady().then(() => {
     const mainWindow = createWindow();
     setupAutoUpdater(mainWindow);
@@ -97,7 +154,7 @@ app.whenReady().then(() => {
     });
 });
 
-// Quit when all windows are closed, except on macOS
+// Quit cuando todas las ventanas están cerradas (excepto en macOS)
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit();
@@ -110,7 +167,7 @@ ipcMain.on("control-button-minimize", (event) => {
     if (win) {
         win.minimize();
     }
-})
+});
 
 // controlar el boton de cerrar
 ipcMain.on("control-button-close", (event) => {
@@ -118,7 +175,7 @@ ipcMain.on("control-button-close", (event) => {
     if (win) {
         win.close();
     }
-})
+});
 
 console.log('Iniciando verificación de actualizaciones...');
 autoUpdater.checkForUpdates().then((result) => {
@@ -126,3 +183,7 @@ autoUpdater.checkForUpdates().then((result) => {
 }).catch((error) => {
     console.error('Error al verificar actualizaciones:', error);
 });
+
+// iniciar la app sin el modo oscuro del sistema 
+
+nativeTheme.themeSource = "light"; 

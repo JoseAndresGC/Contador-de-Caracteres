@@ -6,14 +6,52 @@
 }
 
 body {
-  overflow: hidden; /* Evita el scroll */
+  overflow: hidden; /*Evita el scroll*/
+  user-select: none; /* Evita la selección de texto al hacer clic */
 }
 
+:root {
+  color-scheme: light dark; /* Permite al navegador saber que el tema puede ser claro u oscuro */
+}
+
+@media (prefers-color-scheme: dark) {
+  body { background: #333; color: white;}
+  .container { background-color: #444; }
+  .input-text { background-color: #555; color: white; } 
+  .input-text:focus { background-color: #666; } 
+  .clear-button { background-color: #666; } 
+  .clear-button:hover { background-color: #777; }
+  .clear-button:active { background-color: #888; } 
+  .theme-button { background-color: #666; } 
+  .theme-button:hover { background-color: #777; } 
+  .theme-button:active { background-color: #888; }
+  .theme-button:focus { outline: 0.3vh solid dodgerblue; outline-offset: 0.3vh; } 
+  .theme-button:focus:not(:focus-visible) { outline: none; } 
+  .titlebar { background-color: #9B59B6; } 
+  /* #control-button-minimize { background-color: #666; } 
+  #control-button-minimize:hover { background-color: #777; } 
+  #control-button-close { background-color: #666; } 
+  #control-button-close:hover { background-color: #777; } */
+  .charCountSpan, .wordCountSpan, .sentenceCountSpan { color: white; } 
+  .results { color: white; } 
+  .input-text { color: white; } 
+  .clear-button { color: white; } 
+  #options-button:hover { background-color: #9B59B6 ; box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3); }
+
+}
+
+@media (prefers-color-scheme: light) {
+  body { background: #F5F7FA; color: black;} /* Cambia el color de fondo y texto para el modo claro */
+  .container { background-color: #F5F7FA; }
+  .titlebar { background-color: #3498DB; }
+  #options-button { background-color: #dcdcdc;}
+  #options-button:hover { background-color: #3498DB ; box-shadow: 0 0.5vh 1.5vh rgba(0, 0, 0, 0.3); }
+}
+ 
 .titlebar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3498DB;
   border-radius: 1em;
   padding: 1vh 2vh;
   /* border-bottom: 1px solid rgb(133, 133, 133); */
@@ -48,12 +86,11 @@ body {
 }
 
   .container {
-    background-color: #F5F7FA;
     width: 100%;
     border-radius: 1em;
     margin: 0 auto;
     padding: 1vh;
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -68,11 +105,18 @@ body {
     padding: 2% 5% 3% 5%;
     font-size: 3vh;
   }
-  
-  .controls {
-    padding: 3%;
-  }
 
+  #options-button {
+    position: absolute;
+    right: 9vh;
+    bottom: 80vh;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.6vh;
+    height: 5vh;
+    width: 5vh;
+  }
+  
   .input-text {
     width: 90%;
     height: 55vh;
@@ -87,7 +131,22 @@ body {
   .input-text:focus {
     box-shadow: 0 1.5vh 5vh rgba(0, 0, 0, 0.5);
   }
- 
+  
+  .controls {
+    padding: 3%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* gap: 2vh; */
+    /* flex-wrap: wrap; */
+    margin: 0 auto;
+    width: 90%;
+    /* max-width: 1200px; */
+    /* background-color: #F5F7FA; */
+    border-radius: 1em;
+    /* box-shadow: 0 1.5vh 5vh rgba(0, 0, 0, 0.2) */
+  }
+
   .clear-button {
     border: none;
     cursor: pointer;
@@ -101,3 +160,85 @@ body {
     background-color: rgb(255, 100, 100);
     box-shadow: 0 0.5vh 1.5vh rgb(185, 0, 0);
   }
+
+  .clear-button:active {
+    box-shadow: 0 0.5vh 1.5vh rgb(185, 0, 0);
+    transform: translateY(0.2vh);
+  }
+
+  .theme-button-container {
+    display: inline-block;
+  }
+
+  /* oculta el checkbox */
+  #theme-toggle-checkbox {
+    display: none;
+  }
+
+  .theme-button {
+    display: inline-flex; /*centra el icono*/
+    justify-content: center;
+    align-items: center;
+    width: 5vh;
+    height: 5vh;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 0.3vh solid #dcdcdc;
+    border-radius: 0.6vh;
+    cursor: pointer;
+    font-size: 2vh;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .icon {
+    display: inline-block;
+    line-height: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .icon-sun {
+    display: inline-block;
+  }
+
+  .icon-moon {
+    display: none;
+  }
+
+  /* Estilo cuando el checkbox está activado (modo oscuro) */
+
+  #theme-toggle-checkbox:checked + .theme-button {
+    background-color: #333;
+    color: #f0f0f0;
+    border-color: #555;
+  }
+
+  /* modo noche ocultar sol */
+
+  #theme-toggle-checkbox:checked + .theme-button .icon-sun {
+    display: none; /* oculta el icono del sol */
+  }
+
+  /* modo noche mostrar luna */
+
+  #theme-toggle-checkbox:checked + .theme-button .icon-moon {
+    display: inline-block; /* muestra le icono de la luna */
+  }
+
+  .theme-button:hover {
+    background-color: #e0e0e0;
+  }
+
+  #theme-toggle-checkbox:checked + .theme-button:hover {
+    background-color: #444;
+  }
+
+  #theme-toggle-checkbox:focus + .theme-button {
+    outline: 0.3vh solid dodgerblue;
+    outline-offset: 0.3vh; /* Espacio entre el borde y el botón */
+  }
+
+#theme-toggle-checkbox:focus:not(:focus-visible) + .theme-button {
+  outline: none; /* Elimina el borde de enfoque cuando el checkbox no es visible */
+}

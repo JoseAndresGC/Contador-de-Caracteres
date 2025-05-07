@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones</title>
+    <!-- Inner CSS -->
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            box-sizing: border-box;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+            background-color: #F5F7FA;
+        }
+
+        /* .container {
+        } */
+
+        h1 {
+            position: relative;
+            bottom: 2.5vh;
+        }
+
+        /* p {
+            padding: 0 0 2vh 2vh;
+        } */
+
+        .themeSystem-button-container, p {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(1, 1fr);
+            padding-left: 10vh;
+        }
+
+        #theme-toggle-checkboxSystem {
+            display: none;
+        }
+
+        .themeSystem-button {
+            grid-area: 2 / 2 / 3 / 3;
+            position: relative;
+            width: 15vh;
+            height: 8.3vh;
+            background-color: #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            bottom: 12vh;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .themeSystem-button::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #theme-toggle-checkboxSystem:checked + .themeSystem-button {
+            background-color: #4CAF50;
+        }
+
+        #theme-toggle-checkboxSystem:checked + .themeSystem-button::before {
+            transform: translateX(6vh);
+        }
+
+        /* boton de cerrar */
+
+        .titlebar-controls {
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            padding: 26vh 5vh 0 0;
+        }
+
+        #close-options-menu {
+            cursor: pointer;
+            border: none;
+            background-color: #ccc;
+            height: 10vh;
+            width: 30vh;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        #close-options-menu:hover {
+            background-color: #dadada;
+        }
+
+        .titlebar {
+            display: flex;
+            justify-content: center;
+            background-color: #dadada;
+            height: 20vh;
+            -webkit-app-region: drag; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="titlebar">
+            <h1>Opciones</h1>
+        </div>
+    
+        <p>General</p>
+        <p>Tema del sistema</p>
+        <div class="themeSystem-button-container">
+            <input type="checkbox" id="theme-toggle-checkboxSystem">
+            <label class="themeSystem-button" for="theme-toggle-checkboxSystem"></label>
+        </div>
+        <div class="titlebar-controls">
+            <button id="close-options-menu">CERRAR</button>
+        </div>
+    </div>
+    
+</body>
+
+<script src="menuRenderer.js"></script>
+</html>
